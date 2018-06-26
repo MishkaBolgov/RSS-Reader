@@ -1,19 +1,36 @@
 package mishka.rssreader.di.module;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.v4.app.FragmentActivity;
+
 import dagger.Module;
 import dagger.Provides;
+import mishka.rssreader.data.DataManager;
 import mishka.rssreader.data.Post;
+import mishka.rssreader.ui.post.PostViewModel;
+import mishka.rssreader.ui.post.PostViewModelFactory;
 
 @Module
 public class PostModule {
-    private Post post;
 
-    public PostModule(Post post) {
-        this.post = post;
+    private FragmentActivity activity;
+    private int postId;
+
+    public PostModule(FragmentActivity activity, int postId) {
+        this.activity = activity;
+        this.postId = postId;
     }
 
     @Provides
-    Post providePost(){
-        return post;
+    PostViewModel providePostViewModel(PostViewModelFactory factory){
+        return ViewModelProviders.of(activity, factory).get(PostViewModel.class);
     }
+
+    @Provides
+    PostViewModelFactory providePostViewModelFactory(DataManager dataManager){
+        return new PostViewModelFactory(dataManager, postId);
+    }
+
 }

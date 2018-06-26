@@ -30,7 +30,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(view.getContext(), PostActivity.class);
-        intent.putExtra("post", post);
+        intent.putExtra("post_id", post.getId());
         view.getContext().startActivity(intent);
     }
 }

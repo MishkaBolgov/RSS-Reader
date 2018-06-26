@@ -1,53 +1,65 @@
 package mishka.rssreader.data;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.widget.Toast;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
-import mishka.rssreader.data.db.DbHelper;
 import mishka.rssreader.data.rss.RssHelper;
 
 public class SimpleDataManager implements DataManager {
+
+    private PostDao postDao;
     private RssHelper rssHelper;
-    private DbHelper dbHelper;
-    private Context context;
 
     @Inject
-    public SimpleDataManager(RssHelper rssHelper, DbHelper dbHelper, Context context) {
+    public SimpleDataManager(PostDao postDao, RssHelper rssHelper) {
+        this.postDao = postDao;
         this.rssHelper = rssHelper;
-        this.dbHelper = dbHelper;
-        this.context = context;
     }
 
     @Override
-    public void getAllPosts(PostFetchedListener postFetchedListener) {
-        if (isInternetConnected()) {
-            updateAndFetchFromDb(postFetchedListener);
-        } else {
-            fetchFromDb(postFetchedListener);
-            Toast.makeText(context, "No internet connection.", Toast.LENGTH_SHORT).show();
+    public void update() {
+        new AsyncPostFetcher(rssHelper, postDao).execute();
+    }
+
+    @Override
+    public LiveData<Post> getPostById(int postId) {
+        return postDao.getPostById(postId);
+    }
+
+    static class AsyncPostFetcher extends AsyncTask<Void, Void, Void> {
+        private RssHelper rssHelper;
+        private PostDao postDao;
+
+        public AsyncPostFetcher(RssHelper rssHelper, PostDao postDao) {
+            this.rssHelper = rssHelper;
+            this.postDao = postDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            List<Post> posts = rssHelper.fetchPosts();
+            if (posts.size() > 0) {
+                postDao.deleteAll();
+                postDao.insertAll(posts);
+            }
+            return null;
         }
     }
 
-    private boolean isInternetConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null) {
-            NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-            if (info != null)
-                return true;
-        }
-        return false;
-    }
 
-    private void fetchFromDb(PostFetchedListener postFetchedListener) {
-        new AsyncFeedFetcher(dbHelper, rssHelper, postFetchedListener).execute(false);
-    }
-
-    private void updateAndFetchFromDb(PostFetchedListener postFetchedListener) {
-        new AsyncFeedFetcher(dbHelper, rssHelper, postFetchedListener).execute(true);
+    public LiveData<List<Post>> getPosts() {
+        update();
+        return postDao.getPosts();
     }
 
 }

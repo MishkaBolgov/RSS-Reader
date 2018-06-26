@@ -2,20 +2,22 @@ package mishka.rssreader.di.module;
 
 import dagger.Module;
 import dagger.Provides;
+import mishka.rssreader.data.DataManager;
+import mishka.rssreader.data.SimpleDataManager;
 import mishka.rssreader.ui.feed.FeedAdapter;
-import mishka.rssreader.ui.feed.FeedMvpPresenter;
-import mishka.rssreader.ui.feed.FeedPresenter;
+import mishka.rssreader.ui.feed.FeedViewModel;
 
-@Module(includes = DatabaseModule.class)
+@Module
 public class FeedModule {
-
-    @Provides
-    FeedMvpPresenter provideFeedMvpPresenter(FeedPresenter feedPresenter){
-        return feedPresenter;
-    }
 
     @Provides
     FeedAdapter provideFeedAdapter(){
         return new FeedAdapter();
     }
+
+    @Provides
+    FeedViewModel provideFeedViewModel(DataManager dataManager){
+        return new FeedViewModel(dataManager);
+    }
+
 }

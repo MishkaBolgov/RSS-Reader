@@ -1,5 +1,7 @@
 package mishka.rssreader.data;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
@@ -14,10 +16,12 @@ public interface PostDao {
     @Insert
     void insertAll(List<Post> posts);
 
-    @Query("SELECT * FROM " + DATABASE_NAME)
-    List<Post> getAll();
-
     @Query("DELETE FROM " + DATABASE_NAME)
-    void eraseDatabase();
+    void deleteAll();
 
+    @Query("SELECT * FROM post")
+    LiveData<List<Post>> getPosts();
+
+    @Query("SELECT * FROM post WHERE id=:postId")
+    LiveData<Post> getPostById(int postId);
 }
