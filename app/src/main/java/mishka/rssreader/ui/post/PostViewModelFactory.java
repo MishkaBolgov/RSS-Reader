@@ -5,8 +5,6 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
 import mishka.rssreader.data.DataManager;
-import mishka.rssreader.data.Post;
-import mishka.rssreader.data.SimpleDataManager;
 
 public class PostViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     private int postId;

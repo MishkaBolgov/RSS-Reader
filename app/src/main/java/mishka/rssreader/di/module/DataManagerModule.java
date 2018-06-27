@@ -8,9 +8,9 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import mishka.rssreader.data.AppDatabase;
-import mishka.rssreader.data.PostDao;
+import mishka.rssreader.data.model.RssItemDao;
 import mishka.rssreader.data.rss.RssHelper;
-import mishka.rssreader.data.rss.SimpleRssHelper;
+import mishka.rssreader.data.rss.RetrofitRssFetcher;
 
 @Module
 public class DataManagerModule {
@@ -19,17 +19,16 @@ public class DataManagerModule {
     @Singleton
     AppDatabase provideAppDatabase(Context context) {
         AppDatabase database = Room.databaseBuilder(context, AppDatabase.class, "database").build();
-        System.out.println("Database created: " + database.hashCode());
         return database;
     }
 
     @Provides
-    PostDao providePostDao(AppDatabase database) {
-        return database.postDao();
+    RssItemDao provideRssItemDao(AppDatabase database){
+        return database.rssItemDao();
     }
 
     @Provides
-    RssHelper provideRssHelper(SimpleRssHelper rssHelper) {
+    RssHelper provideRssHelper(RetrofitRssFetcher rssHelper) {
         return rssHelper;
     }
 }

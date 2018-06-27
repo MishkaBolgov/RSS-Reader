@@ -11,12 +11,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import mishka.rssreader.R;
-import mishka.rssreader.data.Post;
+import mishka.rssreader.data.model.RssItem;
 
-public class FeedAdapter extends RecyclerView.Adapter<PostViewHolder>{
-    private List<Post> posts;
+public class FeedAdapter extends RecyclerView.Adapter<RssItemViewHolder>{
+    private List<RssItem> posts;
 
-    public void setPosts(List<Post> posts) {
+    public void setPosts(List<RssItem> posts) {
         this.posts = posts;
         notifyDataSetChanged();
     }
@@ -27,14 +27,14 @@ public class FeedAdapter extends RecyclerView.Adapter<PostViewHolder>{
     }
 
     @Override
-    public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RssItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_view, parent, false);
-        PostViewHolder postViewHolder = new PostViewHolder(view);
+        RssItemViewHolder postViewHolder = new RssItemViewHolder(view);
         return postViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(PostViewHolder holder, int position) {
+    public void onBindViewHolder(RssItemViewHolder holder, int position) {
         holder.setPost(posts.get(position));
     }
 

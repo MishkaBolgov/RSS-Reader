@@ -3,7 +3,6 @@ package mishka.rssreader.ui.feed;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +15,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import mishka.rssreader.R;
-import mishka.rssreader.data.Post;
+import mishka.rssreader.data.model.RssItem;
 import mishka.rssreader.di.component.DaggerFeedComponent;
 import mishka.rssreader.di.component.FeedComponent;
 import mishka.rssreader.ui.BaseActivity;
@@ -54,9 +53,9 @@ public class FeedActivity extends BaseActivity {
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         feedRecyclerView.setAdapter(adapter);
 
-        viewModel.getPosts().observe(this, new Observer<List<Post>>() {
+        viewModel.getPosts().observe(this, new Observer<List<RssItem>>() {
             @Override
-            public void onChanged(@Nullable List<Post> posts) {
+            public void onChanged(@Nullable List<RssItem> posts) {
                 adapter.setPosts(posts);
             }
         });

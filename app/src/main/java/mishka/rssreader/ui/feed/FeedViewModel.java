@@ -1,7 +1,6 @@
 package mishka.rssreader.ui.feed;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import java.util.List;
@@ -9,11 +8,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import mishka.rssreader.data.DataManager;
-import mishka.rssreader.data.Post;
-import mishka.rssreader.data.SimpleDataManager;
+import mishka.rssreader.data.model.RssItem;
 
 public class FeedViewModel extends ViewModel {
-    private final LiveData<List<Post>> posts;
+    private final LiveData<List<RssItem>> posts;
     private DataManager dataManager;
 
     @Inject
@@ -22,7 +20,7 @@ public class FeedViewModel extends ViewModel {
         this.posts = dataManager.getPosts();
     }
 
-    public LiveData<List<Post>> getPosts() {
+    public LiveData<List<RssItem>> getPosts() {
         return posts;
     }
 

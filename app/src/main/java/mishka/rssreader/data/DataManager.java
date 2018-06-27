@@ -4,14 +4,12 @@ import android.arch.lifecycle.LiveData;
 
 import java.util.List;
 
+import mishka.rssreader.data.model.RssItem;
+
 public interface DataManager {
     void update();
 
-    LiveData<Post> getPostById(int postId);
+    LiveData<RssItem> getPostById(int postId);
 
-    LiveData<List<Post>> getPosts();
-
-    interface PostFetchedListener {
-        void onPostsFetched(List<Post> posts);
-    }
+    LiveData<List<RssItem>> getPosts();
 }

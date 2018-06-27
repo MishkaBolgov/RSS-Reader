@@ -1,11 +1,8 @@
 package mishka.rssreader.ui.post;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -19,7 +16,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import mishka.rssreader.R;
-import mishka.rssreader.data.Post;
+import mishka.rssreader.data.model.RssItem;
 import mishka.rssreader.di.component.DaggerPostComponent;
 import mishka.rssreader.di.component.PostComponent;
 import mishka.rssreader.di.module.PostModule;
@@ -49,6 +46,7 @@ public class PostActivity extends BaseActivity {
         Intent intent = getIntent();
         int postId = intent.getIntExtra("post_id", -1);
 
+
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -59,12 +57,13 @@ public class PostActivity extends BaseActivity {
         PostComponent postComponent = DaggerPostComponent.builder().postModule(new PostModule(this, postId)).applicationComponent(getApplicationComponent()).build();
         postComponent.inject(this);
 
-        viewModel.getPost().observe(this, new Observer<Post>() {
+        viewModel.getPost().observe(this, new Observer<RssItem>() {
             @Override
-            public void onChanged(@Nullable Post post) {
-                if (post.hasImage())
-                    showPost(post.getImageLink(), post.getTitle(), post.getFullText());
-                else showPost(post.getTitle(), post.getFullText());
+            public void onChanged(@Nullable RssItem post) {
+                if (post != null)
+                    if (post.hasImage())
+                        showPost(post.getEnclosureLink(), post.getTitle(), post.getFullText());
+                    else showPost(post.getTitle(), post.getFullText());
             }
         });
 

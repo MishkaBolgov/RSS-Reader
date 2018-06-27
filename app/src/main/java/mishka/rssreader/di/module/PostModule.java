@@ -1,14 +1,11 @@
 package mishka.rssreader.di.module;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.v4.app.FragmentActivity;
 
 import dagger.Module;
 import dagger.Provides;
 import mishka.rssreader.data.DataManager;
-import mishka.rssreader.data.Post;
 import mishka.rssreader.ui.post.PostViewModel;
 import mishka.rssreader.ui.post.PostViewModelFactory;
 
