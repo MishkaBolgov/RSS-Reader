@@ -9,10 +9,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import mishka.rssreader.data.model.Rss;
-import mishka.rssreader.data.model.RssItem;
-import mishka.rssreader.data.rss.RssHelper;
+import mishka.rssreader.data.model.RealmRss;
+import mishka.rssreader.data.model.RealmRssItem;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 import retrofit2.http.GET;
@@ -23,7 +24,21 @@ public class RetrofitRssFetcher implements RssHelper {
     public RetrofitRssFetcher() {
     }
 
-    public List<RssItem> getRss() {
+    @Override
+    public List<RealmRssItem> getRealmRss() {
+        Call<RealmRss> realmCall = getVestiRssApi().getRealmRss();
+        List<RealmRssItem> realmItems = new ArrayList<>();
+
+        try {
+            realmItems = realmCall.execute().body().getChannel().getItems();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return realmItems;
+    }
+
+    private VestiRssApi getVestiRssApi() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.vesti.ru/")
                 .addConverterFactory(
@@ -33,20 +48,11 @@ public class RetrofitRssFetcher implements RssHelper {
                 )
                 .build();
 
-        VestiRssApi vestiRssApi = retrofit.create(VestiRssApi.class);
-        Call<Rss> call = vestiRssApi.getRss();
-
-        List<RssItem> items = new ArrayList<>();
-        try {
-            items = call.execute().body().getChannel().getItems();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return items;
+        return retrofit.create(VestiRssApi.class);
     }
 
     interface VestiRssApi {
         @GET("vesti.rss")
-        Call<Rss> getRss();
+        Call<RealmRss> getRealmRss();
     }
 }

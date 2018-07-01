@@ -11,12 +11,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import mishka.rssreader.R;
-import mishka.rssreader.data.model.RssItem;
+import mishka.rssreader.data.model.RealmRssItem;
 
 public class FeedAdapter extends RecyclerView.Adapter<RssItemViewHolder>{
-    private List<RssItem> posts;
+    private List<RealmRssItem> posts;
 
-    public void setPosts(List<RssItem> posts) {
+    public void setPosts(List<RealmRssItem> posts) {
         this.posts = posts;
         notifyDataSetChanged();
     }

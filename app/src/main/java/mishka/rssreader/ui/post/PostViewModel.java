@@ -4,16 +4,17 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import mishka.rssreader.data.DataManager;
-import mishka.rssreader.data.model.RssItem;
+import mishka.rssreader.data.model.RealmRssItem;
+
 
 public class PostViewModel extends ViewModel {
-    private LiveData<RssItem> post;
+    private RealmRssItem post;
 
     public PostViewModel(DataManager dataManager, int postId) {
-        this.post = dataManager.getPostById(postId);
+        this.post = dataManager.getRssItemById(postId);
     }
 
-    public LiveData<RssItem> getPost() {
+    public RealmRssItem getPost() {
         return post;
     }
 }

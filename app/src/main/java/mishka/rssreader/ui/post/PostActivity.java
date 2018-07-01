@@ -16,7 +16,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import mishka.rssreader.R;
-import mishka.rssreader.data.model.RssItem;
+import mishka.rssreader.data.model.RealmRssItem;
 import mishka.rssreader.di.component.DaggerPostComponent;
 import mishka.rssreader.di.component.PostComponent;
 import mishka.rssreader.di.module.PostModule;
@@ -57,15 +57,12 @@ public class PostActivity extends BaseActivity {
         PostComponent postComponent = DaggerPostComponent.builder().postModule(new PostModule(this, postId)).applicationComponent(getApplicationComponent()).build();
         postComponent.inject(this);
 
-        viewModel.getPost().observe(this, new Observer<RssItem>() {
-            @Override
-            public void onChanged(@Nullable RssItem post) {
-                if (post != null)
-                    if (post.hasImage())
-                        showPost(post.getEnclosureLink(), post.getTitle(), post.getFullText());
-                    else showPost(post.getTitle(), post.getFullText());
-            }
-        });
+        RealmRssItem post = viewModel.getPost();
+
+        if (post.hasImage())
+            showPost(post.getEnclosureLink(), post.getTitle(), post.getFullText());
+        else
+            showPost(post.getTitle(), post.getFullText());
 
     }
 

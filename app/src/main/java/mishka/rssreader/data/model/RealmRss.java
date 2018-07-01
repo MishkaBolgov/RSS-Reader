@@ -4,11 +4,11 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root(name = "rss", strict = false)
-public class Rss {
+public class RealmRss {
     @Element
-    private Channel channel;
+    private RealmChannel channel;
 
-    public Channel getChannel() {
+    public RealmChannel getChannel() {
         return channel;
     }
 

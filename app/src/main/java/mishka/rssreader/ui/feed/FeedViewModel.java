@@ -1,30 +1,28 @@
 package mishka.rssreader.ui.feed;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.RealmResults;
 import mishka.rssreader.data.DataManager;
-import mishka.rssreader.data.model.RssItem;
+import mishka.rssreader.data.model.RealmRssItem;
 
 public class FeedViewModel extends ViewModel {
-    private final LiveData<List<RssItem>> posts;
+    private final RealmResults<RealmRssItem> realmResults;
     private DataManager dataManager;
 
     @Inject
     public FeedViewModel(DataManager dataManager) {
         this.dataManager = dataManager;
-        this.posts = dataManager.getPosts();
-    }
-
-    public LiveData<List<RssItem>> getPosts() {
-        return posts;
+        realmResults = dataManager.getRssItems();
     }
 
     public void update() {
         dataManager.update();
+    }
+
+    public RealmResults<RealmRssItem> getRealmItems() {
+        return realmResults;
     }
 }

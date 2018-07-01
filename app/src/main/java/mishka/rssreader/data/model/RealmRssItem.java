@@ -1,8 +1,8 @@
 package mishka.rssreader.data.model;
 
-import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverters;
+import android.content.Context;
+import android.content.Intent;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -12,16 +12,17 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
-@Entity
-@TypeConverters(EnclosureListConverter.class)
-@Root(name = "item", strict = false)
-public class RssItem {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+import io.realm.RealmList;
+import io.realm.RealmObject;
 
+@Root(name = "item", strict = false)
+public class RealmRssItem extends RealmObject {
+    @PrimaryKey
+    private int id;
     @Element(name = "title", required = false)
     private String title;
     @Element(name = "link", required = false)
@@ -31,19 +32,14 @@ public class RssItem {
     @Element(name = "pubDate", required = false)
     private String pubDate;
     @ElementList(name = "enclosure", required = false, inline = true)
-    private List<Enclosure> enclosure;
+    private RealmList<RealmEnclosure> enclosure;
     @Element(name = "full-text", required = false)
     private String fullText;
 
-    @Root(name = "enclosure", strict = false)
-    public static class Enclosure {
-        @Attribute(name = "url")
-        private String url;
-    }
 
     public String getEnclosureLink() {
         if (enclosure.size() > 0)
-            return enclosure.get(0).url;
+            return enclosure.get(0).getUrl();
         else return "";
     }
 
@@ -67,15 +63,6 @@ public class RssItem {
         String formattedPubDate = dateTime.toString("H:mm  |  d " + month);
 
         return formattedPubDate;
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -110,11 +97,11 @@ public class RssItem {
         this.pubDate = pubDate;
     }
 
-    public List<Enclosure> getEnclosure() {
+    public RealmList<RealmEnclosure> getEnclosure() {
         return enclosure;
     }
 
-    public void setEnclosure(List<Enclosure> enclosure) {
+    public void setEnclosure(RealmList<RealmEnclosure> enclosure) {
         this.enclosure = enclosure;
     }
 
@@ -125,5 +112,12 @@ public class RssItem {
     public void setFullText(String fullText) {
         this.fullText = fullText;
     }
-}
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+}

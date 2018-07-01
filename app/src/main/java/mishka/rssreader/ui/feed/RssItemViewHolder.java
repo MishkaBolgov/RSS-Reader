@@ -6,11 +6,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import mishka.rssreader.R;
-import mishka.rssreader.data.model.RssItem;
+import mishka.rssreader.data.model.RealmRssItem;
 import mishka.rssreader.ui.post.PostActivity;
 
 public class RssItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private RssItem post;
+    private RealmRssItem post;
     private TextView title;
     private TextView pubDate;
 
@@ -21,7 +21,7 @@ public class RssItemViewHolder extends RecyclerView.ViewHolder implements View.O
         itemView.setOnClickListener(this);
     }
 
-    public void setPost(RssItem post) {
+    public void setPost(RealmRssItem post) {
         this.post = post;
         title.setText(post.getTitle());
         pubDate.setText(post.getFormattedPubDate());
