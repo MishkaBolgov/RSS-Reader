@@ -5,21 +5,17 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
-import java.util.List;
-
-import mishka.rssreader.data.model.RssItem;
-
 @Dao
-public interface RssItemDao {
+interface RssItemDao {
     @Insert
-    void insertAll(List<RssItem> items);
+    fun insertAll(items: List<RssItem>)
 
     @Query("DELETE FROM rssitem")
-    void deleteAll();
+    fun deleteAll()
 
     @Query("SELECT * FROM rssitem")
-    LiveData<List<RssItem>> getAll();
+    fun getAll(): LiveData<List<RssItem>>
 
     @Query("SELECT * FROM rssitem WHERE id=:id")
-    LiveData<RssItem> getItemById(int id);
+    fun getItemById(id: Int): LiveData<RssItem>
 }

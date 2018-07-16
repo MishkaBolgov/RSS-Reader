@@ -13,22 +13,21 @@ import mishka.rssreader.data.rss.RssHelper;
 import mishka.rssreader.data.rss.RetrofitRssFetcher;
 
 @Module
-public class DataManagerModule {
+class DataManagerModule {
 
     @Provides
     @Singleton
-    AppDatabase provideAppDatabase(Context context) {
-        AppDatabase database = Room.databaseBuilder(context, AppDatabase.class, "database").build();
-        return database;
+    fun provideAppDatabase(context: Context): AppDatabase {
+        return Room.databaseBuilder(context, AppDatabase::class.java, "database").build()
     }
 
     @Provides
-    RssItemDao provideRssItemDao(AppDatabase database){
-        return database.rssItemDao();
+    fun provideRssItemDao(database: AppDatabase): RssItemDao {
+        return database.rssItemDao()
     }
 
     @Provides
-    RssHelper provideRssHelper(RetrofitRssFetcher rssHelper) {
-        return rssHelper;
+    fun provideRssHelper(rssHelper: RetrofitRssFetcher): RssHelper {
+        return rssHelper
     }
 }

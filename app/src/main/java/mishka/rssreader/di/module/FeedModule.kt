@@ -8,16 +8,16 @@ import mishka.rssreader.ui.feed.FeedAdapter;
 import mishka.rssreader.ui.feed.FeedViewModel;
 
 @Module
-public class FeedModule {
+class FeedModule {
 
     @Provides
-    FeedAdapter provideFeedAdapter(){
-        return new FeedAdapter();
+    fun provideFeedAdapter(): FeedAdapter {
+        return FeedAdapter()
     }
 
     @Provides
-    FeedViewModel provideFeedViewModel(DataManager dataManager){
-        return new FeedViewModel(dataManager);
+    fun provideFeedViewModel(dataManager: DataManager): FeedViewModel {
+        return FeedViewModel (dataManager)
     }
 
 }

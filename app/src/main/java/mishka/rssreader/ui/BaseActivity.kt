@@ -6,8 +6,6 @@ import android.os.Bundle;
 import mishka.rssreader.RssApplication;
 import mishka.rssreader.di.component.ApplicationComponent;
 
-public abstract class BaseActivity extends AppCompatActivity {
-    protected ApplicationComponent getApplicationComponent(){
-        return ((RssApplication)getApplication()).getApplicationComponent();
-    }
+abstract class BaseActivity : AppCompatActivity() {
+    protected fun getApplicationComponent() = (application as RssApplication).applicationComponent
 }
