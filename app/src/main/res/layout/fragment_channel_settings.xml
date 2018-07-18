@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".ui.channelsettings.ChannelSettingsFragment"
+    android:elevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvRssChannel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="RSS Channel:"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"/>
+
+            <Spinner
+                android:id="@+id/channelSelectSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tvRssChannel"
+                android:layout_toLeftOf="@+id/btnAddChannel"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:background="@color/transparent"/>
+
+            <ImageButton
+                android:id="@+id/btnAddChannel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@color/transparent"
+                android:src="@drawable/round_add_white_24dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ltNewChannel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/tvNewRssChannel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:text="New channel: " />
+
+            <EditText
+                android:id="@+id/etNewChannelName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:layout_toRightOf="@+id/tvNewRssChannel"
+                android:layout_toLeftOf="@+id/btnSaveChannel"/>
+
+            <ImageButton
+                android:id="@+id/btnSaveChannel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/round_done_white_24dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:background="@color/transparent"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

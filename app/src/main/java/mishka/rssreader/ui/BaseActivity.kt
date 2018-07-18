@@ -7,5 +7,5 @@ import mishka.rssreader.RssApplication;
 import mishka.rssreader.di.component.ApplicationComponent;
 
 abstract class BaseActivity : AppCompatActivity() {
-    protected fun getApplicationComponent() = (application as RssApplication).applicationComponent
+    public fun getApplicationComponent() = (application as RssApplication).applicationComponent
 }

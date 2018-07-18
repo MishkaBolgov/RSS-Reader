@@ -9,8 +9,8 @@ import org.simpleframework.xml.Attribute
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
-import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
 
 @Entity
 @TypeConverters(EnclosureListConverter::class)
@@ -18,23 +18,46 @@ import java.util.*
 class RssItem {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
-    @field:Element(name = "title", required = false)
+
+    @get:Element(name = "title", required = false)
+    @set:Element(name = "title", required = false)
     var title: String? = null
-    @field:Element(name = "link", required = false)
+
+    @get:Element(name = "link", required = false)
+    @set:Element(name = "link", required = false)
     var link: String? = null
-    @field:Element(name = "description", required = false)
+
+    @get:Element(name = "description", required = false)
+    @set:Element(name = "description", required = false)
     var description: String? = null
-    @field:Element(name = "pubDate", required = false)
+
+    @get:Element(name = "pubDate", required = false)
+    @set:Element(name = "pubDate", required = false)
     var pubDate: String? = null
-    @field:ElementList(name = "enclosure", required = false, inline = true)
+
+    @get:ElementList(name = "enclosure", required = false, inline = true)
+    @set:ElementList(name = "enclosure", required = false, inline = true)
     var enclosure: List<Enclosure>? = null
-    @field:Element(name = "full-text", required = false)
+        get() {
+            return field ?: ArrayList()
+        }
+
+    @get:Element(name = "full-text", required = false)
+    @set:Element(name = "full-text", required = false)
     var fullText: String? = null
+        get() {
+            return field ?: ""
+        }
+
 
     fun getEnclosureLink(): String {
-        return if (enclosure!!.isNotEmpty())
-            return enclosure!![0].url!!
-        else return ""
+        val enclosure = this.enclosure
+        if (enclosure != null) {
+            if (enclosure.isNotEmpty())
+                return enclosure[0].url!!
+        }
+
+        return ""
     }
 
     fun getFormattedPubDate(): String {
@@ -53,6 +76,10 @@ class RssItem {
     class Enclosure {
         @field:Attribute(name = "url")
         var url: String? = null
+    }
+
+    override fun toString(): String {
+        return "{$id]: $title $link $description $pubDate ${getEnclosureLink()} $fullText"
     }
 }
 

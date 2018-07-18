@@ -31,7 +31,7 @@ class AsyncPostFetcher(val rssHelper: RssHelper, val rssItemDao: RssItemDao) : A
     override fun doInBackground(vararg p0: Void?): Void? {
         val items = rssHelper.getRss()?:ArrayList()
 
-        if (items.size > 0){
+        if (items.isNotEmpty()){
             rssItemDao.deleteAll()
             rssItemDao.insertAll(items)
         }
