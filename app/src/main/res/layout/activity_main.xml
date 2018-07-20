@@ -1,33 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
-    tools:context="mishka.rssreader.ui.feed.FeedActivity">
+    tools:context=".ui.MainActivity"
+    android:background="@color/background">
 
-    <include layout="@layout/toolbar"></include>
+    <include
+        layout="@layout/toolbar"></include>
 
     <fragment
-        android:id="@+id/channelSettings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_below="@+id/toolbar"
-        android:name="mishka.rssreader.ui.channelsettings.ChannelSettingsFragment"/>
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
+        android:id="@+id/nav_host_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvFeed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </android.support.v7.widget.RecyclerView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_below="@+id/toolbar"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/nav_graph"
+        app:defaultNavHost="true"/>
 
 </RelativeLayout>

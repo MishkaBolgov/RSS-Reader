@@ -8,18 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.RelativeLayout
 import android.widget.TextView
-import butterknife.OnClick
-import butterknife.OnItemLongClick
 import kotlinx.android.synthetic.main.fragment_channel_settings.*
 import kotlinx.android.synthetic.main.fragment_channel_settings.view.*
 
 import mishka.rssreader.R
-import mishka.rssreader.di.component.ChannelSettingsComponent
 import mishka.rssreader.di.component.DaggerChannelSettingsComponent
-import mishka.rssreader.ui.BaseActivity
-import mishka.rssreader.ui.feed.FeedActivity
+import mishka.rssreader.ui.MainActivity
+import mishka.rssreader.ui.feed.FeedFragment
 import javax.inject.Inject
 
 class ChannelSettingsFragment : Fragment() {
@@ -31,7 +27,7 @@ class ChannelSettingsFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_channel_settings, container, false)
 
-        val channelSettingsComponent = DaggerChannelSettingsComponent.builder().applicationComponent((activity as BaseActivity).getApplicationComponent()).build()
+        val channelSettingsComponent = DaggerChannelSettingsComponent.builder().applicationComponent((activity as MainActivity).getApplicationComponent()).build()
         channelSettingsComponent.inject(this)
 
         var adapter = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, viewModel.channelUrls)
@@ -48,13 +44,13 @@ class ChannelSettingsFragment : Fragment() {
             override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, p3: Long) {
                 val selectedUrl = view?.findViewById<TextView>(android.R.id.text1)?.text as String
                 viewModel.setCurrentChannelUrl(selectedUrl)
-                (activity as FeedActivity).notifyCurrentChannelChanged()
+                (parentFragment as FeedFragment).notifyCurrentChannelChanged()
             }
         }
 
-        view.btnAddChannel.setOnClickListener(object: View.OnClickListener{
+        view.btnAddChannel.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                when(isNewChannelLayoutVisible){
+                when (isNewChannelLayoutVisible) {
                     true -> hideNewChannelLayout()
                     false -> showNewChannelLayout()
                 }
@@ -62,7 +58,7 @@ class ChannelSettingsFragment : Fragment() {
 
         })
 
-        view.btnSaveChannel.setOnClickListener(object : View.OnClickListener{
+        view.btnSaveChannel.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 viewModel.addChannel(etNewChannelName.text.toString())
                 etNewChannelName.setText("")
@@ -78,12 +74,12 @@ class ChannelSettingsFragment : Fragment() {
         return view
     }
 
-    fun showNewChannelLayout(){
+    fun showNewChannelLayout() {
         ltNewChannel.visibility = View.VISIBLE
         isNewChannelLayoutVisible = true
     }
 
-    fun hideNewChannelLayout(){
+    fun hideNewChannelLayout() {
         ltNewChannel.visibility = View.GONE
         isNewChannelLayoutVisible = false
     }

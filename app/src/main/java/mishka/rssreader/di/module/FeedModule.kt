@@ -7,13 +7,14 @@ import mishka.rssreader.data.SimpleDataManager;
 import mishka.rssreader.ui.channelsettings.ChannelSettingsViewModel
 import mishka.rssreader.ui.feed.FeedAdapter;
 import mishka.rssreader.ui.feed.FeedViewModel;
+import mishka.rssreader.ui.feed.OnFeedItemClickListener
 
 @Module
-class FeedModule {
+class FeedModule(val itemClickListener: OnFeedItemClickListener) {
 
     @Provides
     fun provideFeedAdapter(): FeedAdapter {
-        return FeedAdapter()
+        return FeedAdapter(itemClickListener)
     }
 
     @Provides

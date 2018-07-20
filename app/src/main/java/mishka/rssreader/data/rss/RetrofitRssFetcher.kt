@@ -30,8 +30,6 @@ class RetrofitRssFetcher @Inject constructor(private val channelConfigUtils: Cha
         val vestiRssApi: VestiRssApi = retrofit.create(VestiRssApi::class.java)
         val call = vestiRssApi.getRss(channelConfigUtils.getCurrentChannelUrl())
 
-        println("url:${call.request().url()}")
-
         var items: List<RssItem>? = null
         try {
             items = call.execute().body()?.channel?.items
