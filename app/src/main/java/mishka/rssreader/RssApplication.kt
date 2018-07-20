@@ -16,7 +16,7 @@ public class RssApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         applicationComponent = DaggerApplicationComponent.builder().applicationModule(ApplicationModule(this)).build()
-//        deleteDatabase("database")
+        deleteDatabase("database")
 
 
 
